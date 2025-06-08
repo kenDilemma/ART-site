@@ -1,0 +1,338 @@
+/* 
+  RHINO.TRAINING STYLES 
+  A minimal CSS file for a rhino training themed one-pager
+*/
+
+:root {
+	--color-white: #ffffff;
+	--color-lime: #39ff14;
+	--color-magenta: #ff00ff;
+	--color-terminal-bg: #1a1a1a;
+	--color-black: #303030;
+	--color-gray-400: rgba(156, 163, 175, 1);
+}
+
+/* Global styles */
+body, html {
+    margin: 0;
+    padding: 0;
+    height: 100%;
+    overflow-x: hidden;
+    font-family: Arial, sans-serif;
+}
+
+/* Base styles */
+* {
+	margin: 0;
+	padding: 0;
+	box-sizing: border-box;
+}
+
+html {
+	scroll-behavior: smooth;
+}
+
+body {
+	background-color: var(--color-terminal-bg);
+	color: var(--color-white);
+	font-family: 'Roboto', Arial, Helvetica, sans-serif;
+	line-height: 1.6;
+	min-height: 100vh;
+}
+
+/* Scroll snapping container */
+.scroll-container {
+    height: 100vh;
+    overflow-y: scroll;
+    scroll-snap-type: y mandatory;
+}
+
+/* Navigation */
+.navbar {
+	position: fixed;
+	top: 0;
+	left: 0;
+	width: 100%;
+	z-index: 50;
+	background-color: transparent;
+	border-bottom: 1px solid var(--color-magenta);
+}
+
+.container {
+	max-width: 64rem;
+	margin: 0 auto;
+	display: flex;
+	align-items: center;
+	padding: 0.5rem 1rem;
+}
+
+.logo {
+	font-size: 1.25rem;
+	font-weight: bold;
+	letter-spacing: 0.1em;
+	color: var(--color-magenta);
+}
+
+.spacer {
+	flex: 1;
+}
+
+.nav-links {
+	display: flex;
+	list-style: none;
+	gap: 3rem;
+}
+
+.nav-link {
+	color: var(--color-lime);
+	text-decoration: none;
+	transition: color 0.3s;
+	font-size: 1rem;
+}
+
+.nav-link:hover {
+	color: var(--color-magenta);
+}
+
+/* Individual section styling */
+.section {
+    position: relative;
+    height: 100vh;
+    width: 100%;
+    scroll-snap-align: start;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+/* Background image styling */
+.section-bg {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: -1;
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+}
+
+/* Specific section backgrounds */
+#services .section-bg {
+    background-image: url('images/services.png');
+}
+
+/* Dark overlay for better text visibility */
+.section-dark {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.6);
+    z-index: -1;
+}
+
+/* Content styling */
+.section-content {
+    color: white;
+    text-align: center;
+    max-width: 80%;
+    padding: 2rem;
+    z-index: 1;
+}
+
+/* Navigation dots for sections */
+.section-nav {
+    position: fixed;
+    right: 20px;
+    top: 50%;
+    transform: translateY(-50%);
+    z-index: 10;
+}
+
+.section-nav a {
+    display: block;
+    width: 12px;
+    height: 12px;
+    margin: 10px 0;
+    border-radius: 50%;
+    background-color: rgba(255, 255, 255, 0.5);
+    transition: background-color 0.3s;
+}
+
+.section-nav a.active {
+    background-color: white;
+}
+
+/* Main content */
+.main-content {
+	padding-top: 5rem;
+	width: 100%;
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	padding-left: 1rem;
+	padding-right: 1rem;
+}
+
+.section {
+	min-height: 100vh;
+	scroll-margin-top: 5rem;
+	display: flex;
+	flex-direction: column;
+	justify-content: center;
+	align-items: center;
+	padding: 4rem 0;
+	width: 100%;
+	margin-bottom: 6rem;
+}
+
+.section-content {
+	max-width: 48rem;
+	width: 100%;
+}
+
+.centered {
+	text-align: center;
+}
+
+/* Typography */
+.heading-primary {
+	font-size: 2.25rem;
+	font-weight: bold;
+	color: var(--color-lime);
+	margin-bottom: 0.5rem;
+}
+
+.subheading {
+	color: var(--color-magenta);
+	font-size: 1.125rem;
+	margin-bottom: 1rem;
+}
+
+.heading-secondary {
+	font-size: 1.875rem;
+	font-weight: bold;
+	margin-bottom: 1rem;
+}
+
+#about .heading-secondary {
+	color: var(--color-magenta);
+}
+
+#services .heading-secondary,
+#calendar .heading-secondary {
+	color: var(--color-lime);
+}
+
+#videos .heading-secondary,
+#contact .heading-secondary {
+	color: var(--color-magenta);
+}
+
+/* Components */
+.logo-large {
+	width: 36rem;
+	height: 8rem;
+	max-width: 90%;
+	margin: auto;
+}
+
+.services-list {
+	list-style-type: disc;
+	padding-left: 2rem;
+	margin: 1rem 0;
+	display: inline-block;
+	text-align: left;
+}
+
+.services-list li {
+	margin-bottom: 0.5rem;
+}
+
+.placeholder-box {
+	border-width: 1px;
+	border-style: solid;
+	border-radius: 0.375rem;
+	padding: 1.5rem;
+	background-color: transparent;
+	text-align: center;
+	max-width: 32rem;
+	margin: 1rem auto;
+}
+
+.lime-border {
+	border-color: var(--color-lime);
+}
+
+.magenta-border {
+	border-color: var(--color-magenta);
+}
+
+.lime-text {
+	color: var(--color-lime);
+}
+
+.magenta-text {
+	color: var(--color-magenta);
+}
+
+.mt-4 {
+	margin-top: 1rem;
+}
+
+.nostr-link {
+	color: var(--color-lime);
+	text-decoration: underline;
+	transition: color 0.3s;
+}
+
+.nostr-link:hover {
+	color: var(--color-magenta);
+}
+
+/* Footer */
+.footer {
+	margin-top: 6rem;
+	padding: 1.5rem 0;
+	text-align: center;
+	font-size: 0.75rem;
+	color: var(--color-gray-400);
+}
+
+.heart {
+	color: var(--color-magenta);
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+	.nav-links {
+		gap: 1.5rem;
+	}
+
+	.logo-large {
+		width: 20rem;
+		height: 20rem;
+	}
+
+	.heading-primary {
+		font-size: 2rem;
+	}
+
+	.heading-secondary {
+		font-size: 1.5rem;
+	}
+}
+
+@media (max-width: 576px) {
+	.nav-links {
+		display: none; /* Consider adding a mobile menu */
+	}
+
+	.heading-primary {
+		font-size: 1.75rem;
+	}
+}

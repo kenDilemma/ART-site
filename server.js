@@ -2,7 +2,7 @@ const express = require('express');
 const cors = require('cors');
 const bodyParser = require('body-parser');
 const nodemailer = require('nodemailer');
-const ical = require('ical-generator');
+const { ICalCalendar } = require('ical-generator');
 const axios = require('axios');
 const { format, addMinutes, parseISO, isAfter, isBefore, startOfDay, endOfDay } = require('date-fns');
 const { v4: uuidv4 } = require('uuid');
@@ -89,6 +89,16 @@ async function getBusyTimes(startDate, endDate) {
 
 // API Routes
 
+// Test Nextcloud connection
+app.get('/api/test-connection', async (req, res) => {
+  try {
+    const result = await nextcloudCalendar.testConnection();
+    res.json(result);
+  } catch (error) {
+    res.status(500).json({ success: false, error: error.message });
+  }
+});
+
 // Get available time slots for a specific date
 app.get('/api/availability/:date', async (req, res) => {
   try {
@@ -148,9 +158,8 @@ app.post('/api/book', async (req, res) => {
     // Generate unique meeting ID for Jitsi
     const meetingId = uuidv4();
     const jitsiLink = `https://meet.jit.si/rhino-training-${meetingId}`;
-    
-    // Create ICS calendar event
-    const calendar = ical({
+      // Create ICS calendar event
+    const calendar = new ICalCalendar({
       name: 'Rhino Training Consultation',
       timezone: 'America/New_York' // Adjust to your timezone
     });
@@ -201,56 +210,36 @@ ${notes ? `<p><strong>Notes:</strong> ${notes}</p>` : ''}
 
 <p>Looking forward to our consultation!</p>
 <p>Best regards,<br>Kurt<br>Rhino Training</p>
-    `;
-      // Send emails to all participants
+    `;      // Send emails to all participants
     const allEmails = [email, ...guests.map(g => g.email), EMAIL_CONFIG.user];
     
-    for (const recipientEmail of allEmails) {
-      await transporter.sendMail({
-        from: EMAIL_CONFIG.user,
-        to: recipientEmail,
-        subject: `Rhino Training Consultation - ${format(appointmentDate, 'MMM do, yyyy')}`,
-        html: emailContent,
-        attachments: [
-          {
-            filename: 'consultation.ics',
-            content: calendar.toString(),
-            contentType: 'text/calendar'
-          }
-        ]
-      });
+    try {
+      for (const recipientEmail of allEmails) {
+        await transporter.sendMail({
+          from: EMAIL_CONFIG.user,
+          to: recipientEmail,
+          subject: `Rhino Training Consultation - ${format(appointmentDate, 'MMM do, yyyy')}`,
+          html: emailContent,
+          attachments: [
+            {
+              filename: 'consultation.ics',
+              content: calendar.toString(),
+              contentType: 'text/calendar'
+            }
+          ]
+        });
+      }      console.log('Email notifications sent successfully');
+    } catch (emailError) {
+      console.warn('Failed to send email notifications:', emailError.message);
+      // Continue with booking even if email fails
     }
     
-    // Create event in Nextcloud calendar
-    try {
-      const nextcloudEventData = {
-        start: appointmentDate,
-        end: endDate,
-        summary: `Rhino Training Consultation - ${name}`,
-        description: `
-Consultation with ${name} (${email})
-
-Notes: ${notes || 'No additional notes'}
-
-Video Call: ${jitsiLink}
-
-Guests: ${guests.map(g => `${g.name} (${g.email})`).join(', ') || 'None'}
-        `.trim(),
-        location: jitsiLink,
-        attendees: [{ email, name }, ...guests]
-      };
-      
-      const nextcloudResult = await nextcloudCalendar.createEvent(nextcloudEventData);
-      if (!nextcloudResult.success) {
-        console.warn('Failed to create Nextcloud calendar event:', nextcloudResult.error);
-      }
-    } catch (error) {
-      console.warn('Error creating Nextcloud calendar event:', error.message);
-    }
+    // Note: Only using Nextcloud for availability checking, not booking
+    console.log(`Appointment booked successfully for ${name} at ${format(appointmentDate, 'MMM do, yyyy h:mm a')}`);
     
     res.json({
       success: true,
-      message: 'Appointment booked successfully',
+      message: 'Appointment booked successfully! Check your email for meeting details.',
       meetingLink: jitsiLink,
       appointmentId: meetingId
     });

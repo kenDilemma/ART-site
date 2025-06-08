@@ -226,10 +226,9 @@ class CalendarBooking {
     // Show loading state
     grid.innerHTML = '<div style="grid-column: 1 / -1; text-align: center; color: var(--color-lime);">Loading available times...</div>';
     timeSlotsContainer.classList.add('active');
-    
-    try {
+      try {
       const dateStr = date.toISOString().split('T')[0];
-      const response = await fetch(`/api/availability/${dateStr}`);
+      const response = await fetch(`http://localhost:3000/api/availability/${dateStr}`);
       const data = await response.json();
       
       if (data.available && data.slots.length > 0) {
@@ -333,9 +332,8 @@ class CalendarBooking {
         notes: document.getElementById('clientNotes').value.trim(),
         guests: guests
       };
-      
-      // Submit booking
-      const response = await fetch('/api/book', {
+        // Submit booking
+      const response = await fetch('http://localhost:3000/api/book', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',

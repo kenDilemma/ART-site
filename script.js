@@ -1,8 +1,12 @@
 // Simple script for the rhino.training website
 
 document.addEventListener('DOMContentLoaded', () => {
+  // Get all navigation links and sections
+  const navLinks = document.querySelectorAll('.nav-link');
+  const sections = document.querySelectorAll('.section');
+
   // Smooth scrolling for anchor links
-  document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+  navLinks.forEach(anchor => {
     anchor.addEventListener('click', function(e) {
       e.preventDefault();
       
@@ -20,6 +24,38 @@ document.addEventListener('DOMContentLoaded', () => {
       }
     });
   });
+
+  // Set up IntersectionObserver to highlight current section in navbar
+  const observerOptions = {
+    root: null,
+    rootMargin: '-20% 0px -80% 0px',
+    threshold: 0
+  };
+  
+  const observer = new IntersectionObserver(entries => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        // Get the id of the current section
+        const id = entry.target.getAttribute('id');
+        
+        // Remove active class from all nav links
+        navLinks.forEach(link => {
+          link.classList.remove('active');
+        });
+        
+        // Add active class to the current nav link
+        const currentNavLink = document.querySelector(`.nav-link[href="#${id}"]`);
+        if (currentNavLink) {
+          currentNavLink.classList.add('active');
+        }
+      }
+    });
+  }, observerOptions);
+  
+  // Observe all sections
+  sections.forEach(section => {
+    observer.observe(section);
+  });
   
   // Simple animation for the logo (optional)
   const logo = document.querySelector('.logo-large');
@@ -31,8 +67,6 @@ document.addEventListener('DOMContentLoaded', () => {
       logo.style.opacity = '1';
     }, 300);
   }
-  
-  // You can add more interactivity here if needed
 });
 
 // Optional: Simple mobile menu toggle if you decide to implement it

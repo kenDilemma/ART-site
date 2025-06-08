@@ -83,7 +83,9 @@ async function getBusyTimes(startDate, endDate) {
     return await nextcloudCalendar.getBusyTimes(startDate, endDate);
   } catch (error) {
     console.error('Error fetching calendar data:', error.message);
-    return [];
+    // Re-throw the error instead of returning empty array
+    // This ensures calendar connection failures are properly handled
+    throw error;
   }
 }
 
@@ -115,23 +117,57 @@ app.get('/api/availability/:date', async (req, res) => {
     const dayOfWeek = requestedDate.getDay();
     if (dayOfWeek === 0 || dayOfWeek === 6) {
       return res.json({ available: false, slots: [] });
-    }
-      // Generate all possible time slots
+    }    // Generate all possible time slots
     const allSlots = generateTimeSlots(requestedDate);
     
     // Get busy times from calendar
-    const startOfRequestedDate = startOfDay(requestedDate);
-    const endOfRequestedDate = endOfDay(requestedDate);
-    const busyTimes = await getBusyTimes(startOfRequestedDate, endOfRequestedDate);
-    
+    let busyTimes;
+    try {
+      const startOfRequestedDate = startOfDay(requestedDate);
+      const endOfRequestedDate = endOfDay(requestedDate);
+      busyTimes = await getBusyTimes(startOfRequestedDate, endOfRequestedDate);
+    } catch (calendarError) {
+      console.error('Calendar connection failed:', calendarError.message);
+      // When calendar is unreachable, return no availability to be safe
+      return res.json({ 
+        available: false, 
+        slots: [],
+        error: 'Calendar service temporarily unavailable'
+      });
+    }
+      // DEBUG: Log busy times for debugging
+    console.log(`\n=== DEBUG AVAILABILITY FOR ${date} ===`);
+    console.log(`Found ${busyTimes.length} busy periods:`);
+    busyTimes.forEach((bt, index) => {
+      console.log(`  ${index + 1}. ${bt.start?.toISOString()} - ${bt.end?.toISOString()} (${bt.calendar})`);
+    });
+    console.log(`Generated ${allSlots.length} total time slots to check`);
+
     // Filter out busy slots
     const availableSlots = allSlots.filter(slot => {
       const slotStart = parseISO(slot.datetime);
       const slotEnd = addMinutes(slotStart, BUSINESS_HOURS.slotDuration);
       
+      // DEBUG: Check first few slots
+      if (allSlots.indexOf(slot) < 3) {
+        console.log(`Checking slot ${slot.time}: ${slotStart.toISOString()} - ${slotEnd.toISOString()}`);
+        try {
+          const isBusy = nextcloudCalendar.isTimeSlotBusy(slotStart, slotEnd, busyTimes);
+          console.log(`  Result: ${isBusy ? 'BUSY' : 'FREE'}`);
+          if (busyTimes.length > 0 && !isBusy) {
+            console.log(`  ⚠️  Expected BUSY but got FREE - this might be the bug!`);
+          }
+        } catch (error) {
+          console.log(`  ERROR: ${error.message}`);
+        }
+      }
+      
       // Check if slot conflicts with any busy time
       return !nextcloudCalendar.isTimeSlotBusy(slotStart, slotEnd, busyTimes);
     });
+
+    console.log(`Result: ${availableSlots.length} available slots out of ${allSlots.length} total`);
+    console.log(`=== END DEBUG ===\n`);
     
     res.json({
       available: availableSlots.length > 0,

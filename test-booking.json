@@ -1,0 +1,12 @@
+{
+  "name": "John Test",
+  "email": "john.test@example.com",
+  "datetime": "2025-06-09T13:00:00.000Z",
+  "notes": "Test booking for system verification",
+  "guests": [
+    {
+      "name": "Jane Guest",
+      "email": "jane.guest@example.com"
+    }
+  ]
+}

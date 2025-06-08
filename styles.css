@@ -179,7 +179,7 @@ body.scroll-container {
 
 /* Components */
 .logo-large {
-	width: 36rem;
+	width: 50rem;
 	height: 8rem;
 	max-width: 90%;
 	margin: auto;
@@ -586,7 +586,7 @@ body.scroll-container {
 
 .calendar-trigger {
 	background: none;
-	border: 1px solid var(--color-lime);
+	border: none;
 	color: var(--color-lime);
 	padding: 1rem 2rem;
 	border-radius: 0.375rem;
@@ -598,9 +598,23 @@ body.scroll-container {
 	display: block;
 }
 
+.calendar-trigger .calendar-icon {
+	display: inline-block;
+	vertical-align: middle;
+	margin-right: 0.5rem;
+	color: var(--color-lime);
+	fill: none;
+	stroke: var(--color-lime);
+}
+
 .calendar-trigger:hover {
 	background-color: var(--color-lime);
-	color: var(--color-terminal-bg);
+	color: #000000 !important;
+}
+
+.calendar-trigger:hover .calendar-icon {
+	color: #000000 !important;
+	stroke: #000000 !important;
 }
 
 /* Responsive adjustments */

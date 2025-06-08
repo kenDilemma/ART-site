@@ -17,14 +17,17 @@ class CalendarBooking {
     const calendarSection = document.getElementById('calendar');
     const placeholderBox = calendarSection.querySelector('.placeholder-box');
     
-    placeholderBox.innerHTML = `
-      <button class="calendar-trigger" id="openCalendar">
+    placeholderBox.innerHTML = `      <button class="calendar-trigger" id="openCalendar">
+        <svg class="calendar-icon" width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <rect x="3" y="4" width="18" height="18" rx="2" ry="2" stroke="currentColor" stroke-width="2" fill="none"/>
+          <line x1="16" y1="2" x2="16" y2="6" stroke="currentColor" stroke-width="2"/>
+          <line x1="8" y1="2" x2="8" y2="6" stroke="currentColor" stroke-width="2"/>
+          <line x1="3" y1="10" x2="21" y2="10" stroke="currentColor" stroke-width="2"/>
+        </svg>
         Schedule Your Consultation
       </button>
-      
-      <div class="calendar-modal" id="calendarModal">
+        <div class="calendar-modal" id="calendarModal">
         <div class="modal-content">
-          <button class="modal-close" id="closeModal">&times;</button>
           
           <div class="calendar-header">
             <button class="calendar-nav" id="prevMonth">&larr; Previous</button>
@@ -83,11 +86,9 @@ class CalendarBooking {
       </div>
     `;
   }
-
   bindEvents() {
     // Modal controls
     document.getElementById('openCalendar').addEventListener('click', () => this.openModal());
-    document.getElementById('closeModal').addEventListener('click', () => this.closeModal());
     document.getElementById('cancelBooking').addEventListener('click', () => this.closeModal());
     
     // Calendar navigation

@@ -386,15 +386,24 @@ body.scroll-container {
 	cursor: not-allowed;
 }
 
+/* NEW: Loading state for dates with pending availability data */
+.calendar-day.loading {
+	border-color: var(--color-lime);
+	background-color: rgba(57, 255, 20, 0.05);
+	color: var(--color-lime);
+	cursor: wait;
+	animation: pulse 1.5s ease-in-out infinite;
+}
+
+@keyframes pulse {
+	0%, 100% { opacity: 0.6; }
+	50% { opacity: 1; }
+}
+
 .calendar-day.selected {
 	background-color: var(--color-lime);
 	color: var(--color-terminal-bg);
 	border-color: var(--color-lime);
-}
-
-.calendar-day.other-month {
-	color: var(--color-gray-400);
-	opacity: 0.5;
 }
 
 .time-slots {

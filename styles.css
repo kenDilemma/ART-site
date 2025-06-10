@@ -672,6 +672,36 @@ body.scroll-container {
 	stroke: #000000 !important;
 }
 
+/* Contact submit button styling */
+.contact-submit {
+	width: auto;
+	padding: 1rem;
+	font-size: 1rem;
+	font-weight: bold;
+	margin-top: 1rem;
+	background: none;
+	border: 2px solid var(--color-lime);
+	border-radius: 0.375rem;
+	color: var(--color-lime);
+	cursor: pointer;
+	transition: all 0.3s ease;
+	font-family: inherit;
+	text-transform: uppercase;
+	letter-spacing: 0.05em;
+}
+
+.contact-submit:hover {
+	background-color: var(--color-lime);
+	color: var(--color-terminal-bg);
+	transform: translateY(-2px);
+	box-shadow: 0 4px 12px rgba(0, 255, 0, 0.3);
+}
+
+.contact-submit:active {
+	transform: translateY(0);
+	box-shadow: 0 2px 6px rgba(0, 255, 0, 0.2);
+}
+
 /* Responsive adjustments */
 @media (max-width: 768px) {
 	.nav-links {

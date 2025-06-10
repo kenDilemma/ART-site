@@ -8,14 +8,18 @@
 		<!-- Font imports -->
 		<link rel="preconnect" href="https://fonts.googleapis.com" />
 		<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-		<link href="https://fonts.googleapis.com/css2?family=Roboto+Mono:wght@400;500;700&family=Roboto:wght@300;400;700&display=swap" rel="stylesheet" />
+		<link
+			href="https://fonts.googleapis.com/css2?family=Roboto+Mono:wght@400;500;700&family=Roboto:wght@300;400;700&display=swap"
+			rel="stylesheet"
+		/>
 	</head>
 	<body class="bg-terminalbg font-mono text-white scroll-container">
 		<!-- Navigation Bar -->
 		<nav class="navbar">
 			<div class="container">
 				<span class="logo">Rhino.Training</span>
-				<div class="spacer"></div>				<ul class="nav-links">
+				<div class="spacer"></div>
+				<ul class="nav-links">
 					<li><a href="#home" class="nav-link">Home</a></li>
 					<li><a href="#about" class="nav-link">About</a></li>
 					<li><a href="#services" class="nav-link">Services</a></li>
@@ -42,18 +46,25 @@
 					<p>This is an about page</p>
 				</div>
 			</section>
-
 			<!-- Services Section -->
 			<section id="services" class="section">
-				<div class="section-bg"></div>
-				<div class="section-content">
-					<ul class="services-list">
-						<li>One-on-one Rhino training sessions tailored to your needs.</li>
-						<li>Group training for companies and teams.</li>
-						<li>Consultation on Rhino workflows and automation.</li>
-					</ul>
-					<p class="mt-4"><a href="#contact" class="nostr-link">Contact</a> me to learn more.</p>
-				</div>			</section>
+				<div class="section-content services-container">
+					<div class="services-image">
+						<img src="images/services.png" alt="Services" class="services-img" />
+					</div>
+					<div class="services-text">
+						<ul class="services-list">
+							<li>One-on-one Rhino training tailored to your needs.</li>
+							<li>Group training for companies and teams.</li>
+							<li>Consultation on Rhino workflows and automation.</li>
+						</ul>
+						<p class="mt-4">
+							<a href="#contact" class="nostr-link">Contact</a>
+							me to learn more.
+						</p>
+					</div>
+				</div>
+			</section>
 
 			<!-- Calendar Section - REMOVED -->
 			<!-- 
@@ -93,7 +104,8 @@
 				&copy; 2025 rhino.training &mdash; Made with
 				<span class="heart">&#10084;</span>
 				in the rhino spirit
-			</span>		</footer>
+			</span>
+		</footer>
 		<script src="script.js"></script>
 		<!-- <script src="calendar.js"></script> -->
 	</body>

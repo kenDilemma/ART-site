@@ -5,7 +5,7 @@
 
 :root {
 	--color-white: #ffffff;
-	--color-lime: #39ff14;
+	--color-lime: #00ff00ff;
 	--color-magenta: #ff00ff;
 	--color-terminal-bg: #1a1a1a;
 	--color-black: #303030;
@@ -26,16 +26,16 @@ html {
 body {
 	background-color: var(--color-terminal-bg);
 	color: var(--color-white);
-	font-family: 'Roboto', Arial, Helvetica, sans-serif;
+	font-family: "Roboto", Arial, Helvetica, sans-serif;
 	line-height: 1.6;
 	min-height: 100vh;
 }
 
 /* Scroll snapping */
 body.scroll-container {
-    scroll-snap-type: y mandatory;
-    overflow-y: scroll;
-    height: 100vh;
+	scroll-snap-type: y mandatory;
+	overflow-y: scroll;
+	height: 100vh;
 }
 
 /* Navigation */
@@ -87,12 +87,12 @@ body.scroll-container {
 
 /* Active navbar item styling */
 .nav-link.active {
-    color: var(--color-white) !important;
-    transition: color 0.3s ease;
+	color: var(--color-white) !important;
+	transition: color 0.3s ease;
 }
 
 .nav-link.active:hover {
-    color: var(--color-white) !important;
+	color: var(--color-white) !important;
 }
 
 /* Main content */
@@ -117,7 +117,7 @@ body.scroll-container {
 	width: 100%;
 	margin-bottom: 6rem;
 	position: relative;
-	scroll-snap-align: start;
+	scroll-snap-align: center;
 }
 
 .section-content {
@@ -125,6 +125,7 @@ body.scroll-container {
 	width: 100%;
 	position: relative;
 	z-index: 1;
+	min-height: 90vh; /* Increased from 80vh for maximum vertical space */
 }
 
 .centered {
@@ -133,34 +134,52 @@ body.scroll-container {
 
 /* Background image styling */
 .section-bg {
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    z-index: -1;
-    background-size: contain;
-    background-position: right center;
-    background-repeat: no-repeat;
-    opacity: 0.8;
+	position: absolute;
+	top: 0;
+	left: 0;
+	width: 100%;
+	height: 100%;
+	z-index: -1;
+	background-size: contain;
+	background-position: right center;
+	background-repeat: no-repeat;
+	opacity: 0.8;
 }
 
 /* Services section specific styling */
-#services .section-bg {
-    background-image: url('images/services.png');
+.services-container {
+	display: flex;
+	align-items: center;
+	gap: 2rem;
+	max-width: 100%;
+	height: 100%;
 }
 
-#services .section-content {
-    position: absolute;
-    bottom: 20px;
-    left: 20px;
-    text-align: left;
-    max-width: 40%;
+.services-image {
+	flex: 0 0 60%; /* Take up 60% of width, don't grow or shrink */
+	display: flex;
+	justify-content: center;
+	align-items: flex-start;
+	padding-top: 2rem;
+}
+
+.services-img {
+	width: 100%;
+	height: auto;
+	max-width: 750px; /* Increased from 600px for larger image display */
+	opacity: 0.8;
+}
+
+.services-text {
+	flex: 1; /* Take up remaining space */
+	display: flex;
+	flex-direction: column;
+	justify-content: center;
 }
 
 /* Hide all section titles */
 .heading-secondary {
-    display: none;
+	display: none;
 }
 
 /* Typography */
@@ -187,7 +206,7 @@ body.scroll-container {
 
 .services-list {
 	list-style-type: disc;
-	padding-left: 2rem;
+	padding-left: 1rem; /* Reduced from 2rem to move bullets closer to left */
 	margin: 1rem 0;
 	display: inline-block;
 	text-align: left;
@@ -396,8 +415,13 @@ body.scroll-container {
 }
 
 @keyframes pulse {
-	0%, 100% { opacity: 0.6; }
-	50% { opacity: 1; }
+	0%,
+	100% {
+		opacity: 0.6;
+	}
+	50% {
+		opacity: 1;
+	}
 }
 
 .calendar-day.selected {
@@ -641,28 +665,44 @@ body.scroll-container {
 		font-size: 2rem;
 	}
 
-	#services .section-content {
-		max-width: 60%;
+	/* Services responsive layout */
+	.services-container {
+		flex-direction: column;
+		gap: 1.5rem;
+		text-align: center;
 	}
-	
+
+	.services-image {
+		flex: none;
+		order: 1; /* Image goes to top */
+	}
+	.services-img {
+		max-width: 400px; /* Increased from 250px for tablet */
+	}
+
+	.services-text {
+		order: 2; /* Text goes below */
+		text-align: left;
+	}
+
 	.modal-content {
 		padding: 1rem;
 		margin: 1rem;
 	}
-	
+
 	.calendar-grid {
 		gap: 0.25rem;
 	}
-	
+
 	.calendar-day {
 		font-size: 0.75rem;
 	}
-	
+
 	.time-slots-grid {
 		grid-template-columns: repeat(auto-fit, minmax(60px, 1fr));
 		gap: 0.25rem;
 	}
-	
+
 	.form-actions {
 		flex-direction: column;
 	}
@@ -676,8 +716,12 @@ body.scroll-container {
 	.heading-primary {
 		font-size: 1.75rem;
 	}
+	/* Mobile services layout */
+	.services-img {
+		max-width: 300px; /* Increased from 200px for mobile */
+	}
 
-	#services .section-content {
-		max-width: 80%;
+	.services-text {
+		padding: 0 1rem;
 	}
 }

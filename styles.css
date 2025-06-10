@@ -91,7 +91,7 @@ body.scroll-container {
 }
 
 .navbar .nav-link.active:hover {
-	color: var (--color-white) !important;
+	color: var(--color-white) !important;
 }
 
 /* Main content */
@@ -114,7 +114,7 @@ body.scroll-container {
 	align-items: center;
 	padding: 4rem 0;
 	width: 100%;
-	margin-bottom: 6rem;
+	margin-bottom: 2rem;
 	position: relative;
 	scroll-snap-align: center;
 }

@@ -86,13 +86,12 @@ body.scroll-container {
 }
 
 /* Active navbar item styling */
-.nav-link.active {
+.navbar .nav-link.active {
 	color: var(--color-white) !important;
-	transition: color 0.3s ease;
 }
 
-.nav-link.active:hover {
-	color: var(--color-white) !important;
+.navbar .nav-link.active:hover {
+	color: var (--color-white) !important;
 }
 
 /* Main content */
@@ -150,6 +149,7 @@ body.scroll-container {
 .services-container {
 	display: flex;
 	align-items: center;
+	justify-content: center;
 	gap: 2rem;
 	max-width: 100%;
 	height: 100%;
@@ -245,6 +245,28 @@ body.scroll-container {
 
 .mt-4 {
 	margin-top: 1rem;
+}
+
+.contact-link {
+	color: var(--color-lime);
+	text-decoration: none;
+	transition: color 0.3s;
+	font-size: 1rem;
+}
+
+.contact-link:hover {
+	color: var(--color-magenta);
+}
+
+.email-link {
+	color: var(--color-lime);
+	text-decoration: none;
+	transition: color 0.3s;
+	font-size: 1rem;
+}
+
+.email-link:hover {
+	color: var(--color-magenta);
 }
 
 .nostr-link {

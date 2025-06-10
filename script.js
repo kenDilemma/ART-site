@@ -1,76 +1,63 @@
-// Simple script for the rhino.training website
+console.log("Script file is loading...");
 
-document.addEventListener("DOMContentLoaded", () => {
-	// Get all navigation links and sections
-	const navLinks = document.querySelectorAll(".nav-link");
+document.addEventListener("DOMContentLoaded", function () {
+	console.log("DOM Content Loaded");
+
+	// Simple test - add active class to Home on load
+	const homeLink = document.querySelector('a[href="#home"]');
+	if (homeLink) {
+		homeLink.classList.add("active");
+		console.log("Added active class to home link");
+	}
+
+	// Get navigation elements
+	const navLinks = document.querySelectorAll(".navbar .nav-link");
 	const sections = document.querySelectorAll(".section");
 
-	// Smooth scrolling for anchor links
-	navLinks.forEach((anchor) => {
-		anchor.addEventListener("click", function (e) {
-			e.preventDefault();
+	console.log("Nav links found:", navLinks.length);
+	console.log("Sections found:", sections.length);
 
-			const targetId = this.getAttribute("href");
-			const targetElement = document.querySelector(targetId);
+	// Function to update active nav based on scroll position
+	function updateActiveNav() {
+		let current = "home"; // Default to home
 
-			if (targetElement) {
-				targetElement.scrollIntoView({
-					behavior: "smooth",
-					block: "center",
-				});
-
-				// Update URL without refreshing the page
-				history.pushState(null, null, targetId);
+		sections.forEach((section) => {
+			const rect = section.getBoundingClientRect();
+			// Check if section is in viewport (top half of screen)
+			if (rect.top <= window.innerHeight / 2 && rect.bottom >= window.innerHeight / 2) {
+				current = section.getAttribute("id");
 			}
 		});
-	});
 
-	// Set up IntersectionObserver to highlight current section in navbar
-	const observerOptions = {
-		root: null,
-		rootMargin: "-20% 0px -80% 0px",
-		threshold: 0,
-	};
-
-	const observer = new IntersectionObserver((entries) => {
-		entries.forEach((entry) => {
-			if (entry.isIntersecting) {
-				// Get the id of the current section
-				const id = entry.target.getAttribute("id");
-
-				// Remove active class from all nav links
-				navLinks.forEach((link) => {
-					link.classList.remove("active");
-				});
-
-				// Add active class to the current nav link
-				const currentNavLink = document.querySelector(`.nav-link[href="#${id}"]`);
-				if (currentNavLink) {
-					currentNavLink.classList.add("active");
-				}
+		// Update nav links
+		navLinks.forEach((link) => {
+			link.classList.remove("active");
+			if (link.getAttribute("href") === "#" + current) {
+				link.classList.add("active");
 			}
 		});
-	}, observerOptions);
-
-	// Observe all sections
-	sections.forEach((section) => {
-		observer.observe(section);
-	});
-
-	// Simple animation for the logo (optional)
-	const logo = document.querySelector(".logo-large");
-	if (logo) {
-		logo.style.opacity = "0";
-		logo.style.transition = "opacity 1s ease-in-out";
-
-		setTimeout(() => {
-			logo.style.opacity = "1";
-		}, 300);
 	}
-});
 
-// Optional: Simple mobile menu toggle if you decide to implement it
-function toggleMobileMenu() {
-	const navLinks = document.querySelector(".nav-links");
-	navLinks.classList.toggle("show-mobile");
-}
+	// Click event for nav links
+	navLinks.forEach((link) => {
+		link.addEventListener("click", function (e) {
+			e.preventDefault();
+			console.log("Clicked:", this.textContent);
+
+			// Remove active from all
+			navLinks.forEach((l) => l.classList.remove("active"));
+			// Add active to clicked
+			this.classList.add("active");
+
+			// Scroll to target
+			const target = document.querySelector(this.getAttribute("href"));
+			if (target) {
+				target.scrollIntoView({ behavior: "smooth" });
+			}
+		});
+	});
+
+	// Initial call and scroll listener
+	updateActiveNav();
+	window.addEventListener("scroll", updateActiveNav);
+});

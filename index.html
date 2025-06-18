@@ -72,13 +72,15 @@
 					<div class="contact-container">
 						<div class="contact-info">
 							<h1 class="heading-primary">Get In Touch</h1>
-							<p class="contact-description">Ready to start your training journey? Send us a message!</p>
+							<p class="contact-description">Ready to get started with Rhino training? All inquiries are welcome - reach out with any questions!</p>
 							<div class="contact-email">
 								<a href="mailto:kurt@rhino.training" class="email-link">kurt@rhino.training</a>
 							</div>
 						</div>
 
 						<form class="contact-form" action="https://formspree.io/f/mwpblwjd" method="POST">
+							<input type="hidden" name="_next" value="/index.html#contact">
+							<input type="hidden" name="_subject" value="New contact form submission">
 							<div class="form-group">
 								<label for="name" class="form-label">Name *</label>
 								<input type="text" id="name" name="name" class="form-input" placeholder="Your full name" required />
@@ -114,18 +116,4 @@
 									id="message"
 									name="message"
 									class="form-textarea"
-									placeholder="Tell us about your training goals, experience level, or any questions you have..."
-									required
-								></textarea>
-							</div>
-
-							<button type="submit" class="contact-submit">Send Message</button>
-						</form>
-					</div>
-				</div>
-			</section>
-		</main>
-
-		<script src="script.js"></script>
-	</body>
-</html>
+									placeholder="

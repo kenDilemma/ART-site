@@ -86,11 +86,13 @@ body.scroll-container {
 }
 
 /* Active navbar item styling */
-.navbar .nav-link.active {
+.navbar .nav-links .nav-link.active {
 	color: var(--color-white) !important;
+	font-weight: bold !important;
+	text-decoration: none !important;
 }
 
-.navbar .nav-link.active:hover {
+.navbar .nav-links .nav-link.active:hover {
 	color: var(--color-white) !important;
 }
 

@@ -1,3 +1,5 @@
+console.log("Script is running!");
+
 document.addEventListener("DOMContentLoaded", function () {
 	// Get navigation elements
 	const navLinks = document.querySelectorAll(".navbar .nav-link");
@@ -5,21 +7,24 @@ document.addEventListener("DOMContentLoaded", function () {
 
 	// Function to update active nav based on scroll position
 	function updateActiveNav() {
-		let current = "home"; // Default to home
+		console.log("Scroll event triggered.");
+		let current = "";
 
 		sections.forEach((section) => {
-			const rect = section.getBoundingClientRect();
-			// Check if section is in viewport (center of screen)
-			if (rect.top <= window.innerHeight / 2 && rect.bottom >= window.innerHeight / 2) {
+			const sectionTop = section.offsetTop - 100; // Adjust for navbar height
+			const sectionBottom = sectionTop + section.offsetHeight;
+			console.log(`Checking section: ${section.id}, Top: ${sectionTop}, Bottom: ${sectionBottom}`);
+			if (window.scrollY >= sectionTop && window.scrollY < sectionBottom) {
 				current = section.getAttribute("id");
+				console.log(`Current section: ${current}`);
 			}
 		});
 
-		// Update nav links
 		navLinks.forEach((link) => {
 			link.classList.remove("active");
-			if (link.getAttribute("href") === "#" + current) {
+			if (link.getAttribute("href") === `#${current}`) {
 				link.classList.add("active");
+				console.log(`Active link: ${link.getAttribute("href")}`);
 			}
 		});
 	}
@@ -58,3 +63,15 @@ document.addEventListener("DOMContentLoaded", function () {
 	updateActiveNav();
 	window.addEventListener("scroll", updateActiveNav);
 });
+
+// Example HTML structure for navigation
+const navHTML = `
+<ul class="nav-links">
+	<li><a href="#home" class="nav-link">Home</a></li>
+	<li><a href="#about" class="nav-link active">About</a></li>
+	<li><a href="#services" class="nav-link">Services</a></li>
+	<li><a href="#contact" class="nav-link">Contact</a></li>
+</ul>
+`;
+
+document.body.insertAdjacentHTML("afterbegin", navHTML);
